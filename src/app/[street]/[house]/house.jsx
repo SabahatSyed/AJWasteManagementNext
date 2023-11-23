@@ -15,7 +15,7 @@ const RecyclingModal = ({ isOpen, closeModal, Label = 1, data }) => {
   };
   return (
     <Modal style={modalStyles} isOpen={isOpen} onRequestClose={closeModal} contentLabel={Label}>
-      <div className=" flex flex-col items-center justify-around h-2/3">
+      <div className=" flex flex-col items-center justify-around h-full">
         <Image
           height={96}
           width={96}
@@ -42,6 +42,7 @@ const RecyclingModal = ({ isOpen, closeModal, Label = 1, data }) => {
 const House = ({ data }) => {
   const router = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [logout,setLogout]=useState(false)
 
   const { street, house } = useParams();
   const [currentStreet, setCurrentStreet] = useState(null);
@@ -79,6 +80,9 @@ const House = ({ data }) => {
     };
     // Fetch streets data when the component mounts
     fetchStreets();
+    if(!localStorage.getItem("Login") || localStorage.getItem("Login")=='false' ){
+      router.push('/')
+  }
   }, []);
 
   
@@ -87,6 +91,10 @@ const House = ({ data }) => {
     if (currentHouse) if (currentHouse.fill_level > 90) recycle();
   }, [currentHouse]);
 
+  useEffect(()=>{
+    if(logout)
+    localStorage.setItem("Login","false")
+  },[logout])
   const getRandomCompany = () => {
     const companies = [
       "Dubai municipality Waste Department Circulars",
@@ -197,7 +205,8 @@ const House = ({ data }) => {
           {" "}
           <p className="text-2xl font-semibold text-black"></p>
         </div>
-        <div className="cursor-pointer" onClick={() => router.push("/")}>
+        <div className="cursor-pointer" onClick={() => {setLogout(true) 
+          router.push("/")}}>
           <Image
             width={30}
             height={30}

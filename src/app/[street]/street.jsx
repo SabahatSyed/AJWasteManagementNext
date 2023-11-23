@@ -7,6 +7,7 @@ import { useParams, useRouter, useSearchParams } from "next/navigation";
 const Street = ({ data }) => {
   const router = useRouter();
   const params=useParams()
+  const [logout,setLogout]=useState(false)
 
   const [currentStreet, setCurrentStreet] = useState(null);
   const [currentHouse, setCurrentHouse] = useState(null);
@@ -25,8 +26,14 @@ const Street = ({ data }) => {
     };
     // Fetch streets data when the component mounts
     fetchStreets();
+    if(!localStorage.getItem("Login") || localStorage.getItem("Login")=='false'){
+      router.push('/')
+  }
   }, []);
-
+  useEffect(()=>{
+    if(logout)
+    localStorage.setItem("Login","false")
+  },[logout])
  
   const getRandomCompany = () => {
     const companies = [
@@ -43,6 +50,24 @@ const Street = ({ data }) => {
 
   return (
     <div className=" md:w-3/6 lg:w-1/3 flex flex-col h-full bg-white mx-auto px-2">
+      <div className=" grid grid-cols-3 place-items-center">
+        <div>
+          <Image width={100} height={100} alt="logo" src={"/assets/logo.png"} />
+        </div>
+        <div>
+          {" "}
+          <p className="text-2xl font-semibold text-black"></p>
+        </div>
+        <div className="cursor-pointer" onClick={() => {setLogout(true) 
+          router.push("/")}}>
+          <Image
+            width={30}
+            height={30}
+            alt="logout"
+            src={"/assets/logout.png"}
+          />
+        </div>
+      </div>
       <div>
         <div className=" grid grid-cols-3 place-items-center">
           

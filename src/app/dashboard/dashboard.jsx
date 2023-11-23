@@ -10,6 +10,7 @@ const Dashboard = ({data}) => {
   const [currentHouse, setCurrentHouse] = useState(null);
   const [streets, setStreets] = useState([]);
   const [house, setHouses] = useState([])
+  const [logout,setLogout]=useState(false)
   useEffect(() => {
     const fetchStreets = async () => {
         try {
@@ -22,9 +23,16 @@ const Dashboard = ({data}) => {
       };
     // Fetch streets data when the component mounts
     fetchStreets();
+    if(!localStorage.getItem("Login") || localStorage.getItem("Login")=='false'){
+        router.push('/')
+    }
+
   }, []);
 
-  
+  useEffect(()=>{
+    if(logout)
+    localStorage.setItem("Login","false")
+  },[logout])
   
 
   
@@ -33,7 +41,8 @@ const Dashboard = ({data}) => {
       <div className=' grid grid-cols-3 place-items-center' >
         <div><Image width={100} height={100} alt='logo' src={"/assets/logo.png"} /></div>
        <div> <p className='text-2xl font-semibold text-black' ></p></div>
-        <div className='cursor-pointer' onClick={()=>router.push('/')}><Image width={30} height={30} alt='logout'  src={"/assets/logout.png"} /></div>
+        <div className='cursor-pointer' onClick={()=>{setLogout(true) 
+            router.push('/')}}><Image width={30} height={30} alt='logout'  src={"/assets/logout.png"} /></div>
       </div>
       <div>
         <div  className='p-10 py-5'>
