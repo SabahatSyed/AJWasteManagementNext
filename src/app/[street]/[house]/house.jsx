@@ -222,10 +222,10 @@ const House = ({ data }) => {
           Label={Label}
           data={info}
         />
-        <div className="p-10 py-5">
+        <div className="p-2 md:p-10 py-5">
           {currentHouse && (
             <div>
-              <div className="px-7 grid grid-cols-3">
+              <div className="px-5 grid grid-cols-3">
                 <div className="col-span-3 text-2xl font-bold text-center text-[#82BE42]">
                   {street.replace(/%20/g, " ")}
                 </div>

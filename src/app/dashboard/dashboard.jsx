@@ -37,7 +37,8 @@ const Dashboard = ({data}) => {
 
   
   return (
-    <div className='w-1/3 flex flex-col h-full bg-white mx-auto px-2'>
+    <div className=' flex flex-col h-full bg-white mx-auto px-2'>
+        <div className='w-11/12 md:w-3/6 lg:w-1/3 mx-auto'> 
       <div className=' grid grid-cols-3 place-items-center' >
         <div><Image width={100} height={100} alt='logo' src={"/assets/logo.png"} /></div>
        <div> <p className='text-2xl font-semibold text-black' ></p></div>
@@ -61,6 +62,7 @@ const Dashboard = ({data}) => {
           
          
         </div>
+      </div>
       </div>
     </div>
   );

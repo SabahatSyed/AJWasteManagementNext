@@ -39,7 +39,7 @@ export default function Home() {
 
   return (
     <div className="  bg-white ">
-      <div className="w-1/3 mx-auto flex flex-col bg-white justify-center items-center py-5 px-22 gap-5">
+      <div className="w-11/12 md:w-3/6 lg:w-1/3 mx-auto flex flex-col bg-white justify-center items-center py-5 px-22 gap-5">
         <Image alt="logo" width={300} height={300} src={"/assets/logo.png"} />
 
         <InputField

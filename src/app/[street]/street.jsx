@@ -49,7 +49,7 @@ const Street = ({ data }) => {
   };
 
   return (
-    <div className=" md:w-3/6 lg:w-1/3 flex flex-col h-full bg-white mx-auto px-2">
+    <div className=" md:w-3/6 lg:w-1/3 flex flex-col h-full bg-white mx-auto md:px-2">
       <div className=" grid grid-cols-3 place-items-center">
         <div>
           <Image width={100} height={100} alt="logo" src={"/assets/logo.png"} />
@@ -76,13 +76,13 @@ const Street = ({ data }) => {
           </p>
         </div>
 
-        <div className="border-gray-600 flex flex-col p-4 py-8 mx-5 shadow-md gap-6 rounded-md">
+        <div className="border-gray-600 flex flex-col p-4 py-8 mx-2 md:mx-5 shadow-md gap-6 rounded-md">
           {house
             .filter((item) => item.location.includes(params?.street.replace(/%20/g, ' ')))
             .map((item, index) => (
               <div onClick={() => router.push(`/${params?.street}/${item.location.split(",")[0]}`)} key={index}>
                 <div
-                  className=" cursor-pointer h-full bg-[#29853C] p-5 grid grid-cols-3 shadow-lg rounded-md gap-10 place-items-center w-full"
+                  className=" cursor-pointer h-full bg-[#29853C] py-5 md:p-5 grid grid-cols-3 shadow-lg rounded-md gap-10 place-items-center w-full"
                   key={index}
                 >
                   <Image
