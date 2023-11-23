@@ -4,30 +4,30 @@ import Image from "next/image";
 import Button from "../../components/Button";
 import { useParams, useRouter, useSearchParams } from "next/navigation";
 
-const street = ({ data }) => {
+const Street = ({ data }) => {
   const router = useRouter();
   const params=useParams()
-  console.log("params",params,data)
 
   const [currentStreet, setCurrentStreet] = useState(null);
   const [currentHouse, setCurrentHouse] = useState(null);
   const [streets, setStreets] = useState([]);
   const [house, setHouses] = useState([]);
   useEffect(() => {
+    const fetchStreets = async () => {
+      try {
+        setStreets(
+          Array.from(new Set(data.map((bin) => bin.location.split(", ")[1])))
+        );
+        setHouses(data);
+      } catch (error) {
+        console.error("Error fetching streets:", error.message);
+      }
+    };
     // Fetch streets data when the component mounts
     fetchStreets();
   }, []);
 
-  const fetchStreets = async () => {
-    try {
-      setStreets(
-        Array.from(new Set(data.map((bin) => bin.location.split(", ")[1])))
-      );
-      setHouses(data);
-    } catch (error) {
-      console.error("Error fetching streets:", error.message);
-    }
-  };
+ 
   const getRandomCompany = () => {
     const companies = [
       "Dubai municipality Waste Department Circulars",
@@ -39,70 +39,6 @@ const street = ({ data }) => {
 
     const randomIndex = Math.floor(Math.random() * companies.length);
     return companies[randomIndex];
-  };
-
-  const recycle = async () => {
-    try {
-      if (currentHouse.recycling_in_progress) {
-        console.warn("Recycling is already in progress.");
-        return;
-      }
-
-      // Update local state to indicate recycling in progress
-      setHouses((prevHouses) =>
-        prevHouses.map((house) =>
-          house.bin_id === currentHouse.bin_id &&
-          house.location === currentHouse.location
-            ? { ...house, recycling_in_progress: true }
-            : house
-        )
-      );
-
-      // Simulate recycling steps with alerts and timeouts
-      const recycleSteps = ["Sorting", "Cleaning", "Melting", "Reforming"];
-      let stepIndex = 0;
-
-      const performRecyclingStep = () => {
-        if (stepIndex < recycleSteps.length) {
-          const currentStep = recycleSteps[stepIndex];
-          const randomCompany = getRandomCompany();
-          alert(
-            `Recycling process for ${currentHouse.bin_id} at ${randomCompany}: ${currentStep}`
-          );
-
-          // Move to the next step after a timeout
-          setTimeout(() => {
-            stepIndex++;
-            performRecyclingStep();
-          }, 2000); // 2-second delay for each step
-        } else {
-          // Recycling process completed, update local state
-          setHouses((prevHouses) =>
-            prevHouses.map((house) =>
-              house.bin_id === currentHouse.bin_id &&
-              house.location === currentHouse.location
-                ? {
-                    ...house,
-                    recycling_in_progress: false,
-                    recycled: house.recycled + 1,
-                    fill_level: 0,
-                  }
-                : house
-            )
-          );
-          const randomCompany = getRandomCompany();
-          alert(
-            `Waste from ${currentHouse.bin_id} has been recycled by ${randomCompany}.`
-          );
-        }
-      };
-
-      // Start the recycling process
-      performRecyclingStep();
-    } catch (error) {
-      console.error("Error recycling:", error.message);
-      // Display an error message to the user
-    }
   };
 
   return (
@@ -142,4 +78,4 @@ const street = ({ data }) => {
   );
 };
 
-export default street;
+export default Street;

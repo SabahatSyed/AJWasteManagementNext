@@ -6,7 +6,6 @@ import { useParams, useRouter } from "next/navigation";
 import Modal from "react-modal";
 
 const RecyclingModal = ({ isOpen, closeModal, Label = 1, data }) => {
-  console.log(Label);
   const label = 1;
   const modalStyles = {
     content: {
@@ -26,8 +25,8 @@ const RecyclingModal = ({ isOpen, closeModal, Label = 1, data }) => {
         {data.split(",").length > 0 ? (
           data
             .split(",")
-            .map((item) => (
-              <p className="text-xl text-justify text-gray-700 px-6 font-extrabold font-sans flex-wrap">
+            .map((item,index) => (
+              <p key={index} className="text-xl text-justify text-gray-700 px-6 font-extrabold font-sans flex-wrap">
                 - {item}
               </p>
             ))
@@ -40,7 +39,7 @@ const RecyclingModal = ({ isOpen, closeModal, Label = 1, data }) => {
     </Modal>
   );
 };
-const house = ({ data }) => {
+const House = ({ data }) => {
   const router = useRouter();
   const [modalIsOpen, setModalIsOpen] = useState(false);
 
@@ -60,29 +59,29 @@ const house = ({ data }) => {
   };
 
   useEffect(() => {
+    const fetchStreets = async () => {
+      try {
+        setStreets(
+          Array.from(new Set(data?.map((bin) => bin.location.split(", ")[1])))
+        );
+        setHouses(data);
+        const houseno = house?.replace(/%20/g, " ");
+        const streetno = street?.replace(/%20/g, " ");
+        setCurrentHouse(
+          data.find(
+            (item) =>
+              item.location.includes(streetno) && item.location.includes(houseno)
+          )
+        );
+      } catch (error) {
+        console.error("Error fetching streets:", error.message);
+      }
+    };
     // Fetch streets data when the component mounts
     fetchStreets();
   }, []);
 
-  const fetchStreets = async () => {
-    try {
-      console.log(street);
-      setStreets(
-        Array.from(new Set(data.map((bin) => bin.location.split(", ")[1])))
-      );
-      setHouses(data);
-      const houseno = house?.replace(/%20/g, " ");
-      const streetno = street?.replace(/%20/g, " ");
-      setCurrentHouse(
-        data.find(
-          (item) =>
-            item.location.includes(streetno) && item.location.includes(houseno)
-        )
-      );
-    } catch (error) {
-      console.error("Error fetching streets:", error.message);
-    }
-  };
+  
 
   useEffect(() => {
     if (currentHouse) if (currentHouse.fill_level > 90) recycle();
@@ -101,7 +100,7 @@ const house = ({ data }) => {
     return companies[randomIndex];
   };
 
-  const recycle = async () => {
+  const recycle = () => {
     try {
       if (currentHouse.recycling_in_progress) {
         console.warn("Recycling is already in progress.");
@@ -241,4 +240,4 @@ const house = ({ data }) => {
   );
 };
 
-export default house;
+export default House;
