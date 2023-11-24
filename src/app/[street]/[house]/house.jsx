@@ -9,8 +9,9 @@ const RecyclingModal = ({ isOpen, closeModal, Label = 1, data }) => {
   const label = 1;
   const modalStyles = {
     content: {
-      width: '50%', // Set the desired width here
-      margin: 'auto', // Center the modal horizontally
+      width: '80%',
+      margin: 'auto', 
+      overflowY: 'auto',
     },
   };
   return (
