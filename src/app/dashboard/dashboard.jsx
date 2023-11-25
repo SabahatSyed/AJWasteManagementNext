@@ -45,7 +45,12 @@ const Dashboard = ({data}) => {
         <div className='cursor-pointer' onClick={()=>{setLogout(true) 
             router.push('/')}}><Image width={30} height={30} alt='logout'  src={"/assets/logout.png"} /></div>
       </div>
+      
       <div>
+      <div className=" grid grid-cols-3 place-items-center">
+                <Image className='col-start-3 cursor-pointer' onClick={()=>router.push('dashboard')} alt="back" width={26} height={26} src="/assets/refresh.png"/>
+
+        </div>
         <div  className='p-10 py-5'>
         
             <div className='border-gray-600  flex flex-col gap-10 w-5/6 mx-auto'

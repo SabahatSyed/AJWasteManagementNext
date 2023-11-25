@@ -2,11 +2,13 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "../../components/Button";
-import { useParams, useRouter, useSearchParams } from "next/navigation";
+import { useParams, useRouter, useSearchParams,usePathname } from "next/navigation";
 
 const Street = ({ data }) => {
   const router = useRouter();
   const params=useParams()
+  const path=usePathname()
+
   const [logout,setLogout]=useState(false)
 
   const [currentStreet, setCurrentStreet] = useState(null);
@@ -71,9 +73,12 @@ const Street = ({ data }) => {
       <div>
         <div className=" grid grid-cols-3 place-items-center">
           
-          <p className=" col-span-3 text-2xl font-bold text-center text-[#82BE42]">
-            {params?.street.replace(/%20/g, ' ')}
-          </p>
+          
+          <Image className="cursor-pointer" onClick={()=>router.back()}  alt="back" width={26} height={26} src="/assets/back.png"/>
+                <div className="text-2xl font-bold text-center text-[#82BE42]">
+                {params?.street.replace(/%20/g, ' ')}                </div>
+                <Image  alt="back" className="cursor-pointer" onClick={()=>router.push(path)} width={26} height={26} src="/assets/refresh.png"/>
+
         </div>
 
         <div className="border-gray-600 flex flex-col p-4 py-8 mx-2 md:mx-5 shadow-md gap-6 rounded-md">

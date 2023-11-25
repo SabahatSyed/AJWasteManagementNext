@@ -2,8 +2,9 @@
 import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Button from "../../../components/Button";
-import { useParams, useRouter } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import Modal from "react-modal";
+import { updateBins } from "@/api/fetchdata";
 
 const RecyclingModal = ({ isOpen, closeModal, Label = 1, data }) => {
   const label = 1;
@@ -42,6 +43,7 @@ const RecyclingModal = ({ isOpen, closeModal, Label = 1, data }) => {
 };
 const House = ({ data }) => {
   const router = useRouter();
+  const path=usePathname()
   const [modalIsOpen, setModalIsOpen] = useState(false);
   const [logout,setLogout]=useState(false)
 
@@ -91,7 +93,6 @@ const House = ({ data }) => {
   useEffect(() => {
     if (currentHouse) if (currentHouse.fill_level > 90) recycle();
   }, [currentHouse]);
-
   useEffect(()=>{
     if(logout)
     localStorage.setItem("Login","false")
@@ -185,6 +186,7 @@ const House = ({ data }) => {
           alert(
             `Waste from ${currentHouse.bin_id} has been recycled by Dubai municipality Waste Department Circulars.`
           );
+          updateBins(currentHouse.bin_id,street.replace(/%20/g, " "))
         }
       };
 
@@ -226,10 +228,13 @@ const House = ({ data }) => {
         <div className="p-2 md:p-10 py-5">
           {currentHouse && (
             <div>
-              <div className="px-5 grid grid-cols-3">
-                <div className="col-span-3 text-2xl font-bold text-center text-[#82BE42]">
+              <div className="px-5 grid grid-cols-3 place-items-center place-content-between">
+                <Image className="cursor-pointer" onClick={()=>router.back()} alt="back" width={26} height={26} src="/assets/back.png"/>
+                <div className=" text-2xl font-bold text-center text-[#82BE42]">
                   {street.replace(/%20/g, " ")}
                 </div>
+                <Image className="cursor-pointer" onClick={()=>router.push(path)} alt="back" width={26} height={26} src="/assets/refresh.png"/>
+
               </div>
 
               <div className=" bg-gradient-to-b from-[#83C03A] to-[#9abe6d] flex flex-col rounded-md p-10 gap-6 mt-4">
@@ -241,6 +246,7 @@ const House = ({ data }) => {
                 <p className="text-xl text-white">{`Recycled: ${currentHouse.recycled}`}</p>
                 <p className="text-xl text-white">{`Recycling in Progress: ${currentHouse.recycling_in_progress}`}</p>
                 <p className="text-xl text-white">{`Wasted: ${currentHouse.wasted}`}</p>
+                <p className="text-xl text-white">{`Waste: ${currentHouse.garbage_type}`}</p>
               </div>
             </div>
           )}
